@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Console\Services\WebhookService;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Illuminate\Support\ServiceProvider;
+use SergiX44\Nutgram\Nutgram;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot(Nutgram $bot): void
     {
         //Bind for Webhook service
 

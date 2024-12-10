@@ -1,0 +1,11 @@
+{
+    "name": "MainBot",
+    "alias": "mainbot",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\MainBot\\Providers\\MainBotServiceProvider"
+    ],
+    "files": []
+}

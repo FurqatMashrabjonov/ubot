@@ -22,6 +22,14 @@ class ChatCreateOrUpdate
             'first_name' => $bot->chat()->first_name,
             'last_name' => $bot->chat()->last_name,
         ]);
+
+        cache()->put('chat', [
+            'chat_id' => $bot->chat()->id,
+            'username' => $bot->chat()->username,
+            'first_name' => $bot->chat()->first_name,
+            'last_name' => $bot->chat()->last_name,
+        ], 60);
+
         $next($bot);
     }
 }

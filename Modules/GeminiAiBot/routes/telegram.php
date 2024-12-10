@@ -16,11 +16,6 @@ use App\Telegram\Middleware\SwitchModule;
 */
 
 //Global middlewares
-$bot->middlewares([
-    ChatCreateOrUpdate::class,
-//    SwitchModule::class
-]);
-
-require_once $bot->getGlobalData('module') . '/routes/telegram.php';
-
-//$bot->onCommand('start', Start::class)->description('Start command');
+$bot->onCommand('start', function (\SergiX44\Nutgram\Nutgram $bot) {
+    $bot->sendMessage('Hello, I am a Gemini AI Bot. I can help you with your daily tasks. Please type /help to see the list of available commands.');
+})->description('Start command');

@@ -1,0 +1,11 @@
+{
+    "name": "GeminiAiBot",
+    "alias": "geminiaibot",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GeminiAiBot\\Providers\\GeminiAiBotServiceProvider"
+    ],
+    "files": []
+}
