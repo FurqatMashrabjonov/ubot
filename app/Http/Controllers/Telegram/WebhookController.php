@@ -16,11 +16,10 @@ class WebhookController extends Controller
         try {
             $chat = Chat::query()->where('chat_id', $request->message['chat']['id'])->first();
 
-            $module = Module::find($chat->module ?? 'MainBot'); //TODO: change, make it database driven
-
-            Log::info('modules', Module::all());
+            $module = Module::find($chat->product()?->first()?->module_name ?? 'MainBot'); //TODO: change, make it database driven
 
             $bot->setGlobalData('module', $module->getPath());
+
             $bot->run();
         } catch (\Throwable $e) {
             Log::error($e->getMessage());

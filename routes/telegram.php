@@ -4,6 +4,7 @@
 use App\Telegram\Commands\Start;
 use App\Telegram\Middleware\ChatCreateOrUpdate;
 use App\Telegram\Middleware\SwitchModule;
+use Nwidart\Modules\Facades\Module;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,6 @@ use App\Telegram\Middleware\SwitchModule;
 //Global middlewares
 $bot->middlewares([
     ChatCreateOrUpdate::class,
-//    SwitchModule::class
 ]);
 
-require_once $bot->getGlobalData('module') . '/routes/telegram.php';
-
-//$bot->onCommand('start', Start::class)->description('Start command');
+require_once $bot->getGlobalData('module', Module::find('MainBot')->getPath()) . '/routes/telegram.php';

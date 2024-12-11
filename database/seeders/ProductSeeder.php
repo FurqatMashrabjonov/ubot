@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\ProductStatusEnum;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Nwidart\Modules\Facades\Module;
@@ -32,5 +33,14 @@ class ProductSeeder extends Seeder
                 'status' => ProductStatusEnum::ACTIVE,
             ],
         ];
+
+        Product::query()->insert($products);
     }
 }
+
+//
+//rasm va videolarni telegramdan olamiz va databasega saqlimiz
+//saqlangan rasmlardan productlar uchun foydalanamiz
+//chatlar product tanlashi kerak va saqlashi kerak
+//swticherni optimmlashtirish
+//productlarni tanlash uchun webapp tayyorlash shadcn bilan

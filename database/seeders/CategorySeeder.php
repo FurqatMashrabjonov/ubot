@@ -16,9 +16,11 @@ class CategorySeeder extends Seeder
         $categories = [
             [
                 'name' => 'Custom',
+                'slug' => 'custom',
             ],
             [
                 'name' => 'AI',
+                'slug' => 'ai',
             ]
         ];
 

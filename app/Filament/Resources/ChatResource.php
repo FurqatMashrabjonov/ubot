@@ -6,10 +6,16 @@ use App\Enums\ChatStatusEnum;
 use App\Filament\Resources\ChatResource\Pages;
 use App\Filament\Resources\ChatResource\RelationManagers;
 use App\Models\Chat;
+use App\Models\ChatProduct;
+use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -24,7 +30,10 @@ class ChatResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Select::make('chat.product')
+                    ->label(__('admin/chat.product'))
+                    ->options(fn() => \App\Models\Product::pluck('name', 'id'))
+                    ->required(),
             ]);
     }
 
@@ -40,14 +49,13 @@ class ChatResource extends Resource
                     ->label(__('admin/chat.username'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('first_name')
-                    ->label(__('admin/chat.first_name'))
+
+            //make full name
+                Tables\Columns\TextColumn::make('full_name')
+                    ->label(__('admin/chat.full_name'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('last_name')
-                    ->label(__('admin/chat.last_name'))
-                    ->searchable()
-                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('status')
                     ->label(__('admin/chat.status'))
                     ->badge()
@@ -59,16 +67,44 @@ class ChatResource extends Resource
                     ->searchable()
                     ->badge()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('phone_number')
-                    ->label(__('admin/chat.phone_number'))
+                Tables\Columns\TextColumn::make('product.name')
+                    ->label(__('admin/chat.product'))
                     ->searchable()
                     ->sortable(),
+//                Tables\Columns\TextColumn::make('phone_number')
+//                    ->label(__('admin/chat.phone_number'))
+//                    ->searchable()
+//                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Action::make('updateChat')
+                        ->fillForm(fn(Chat $chat): array => [
+                            'chat_id' => $chat->id,
+                        ])
+                        ->form([
+                            Select::make('product_id')
+                                ->label(__('admin/chat.product'))
+                                ->options(Product::query()->pluck('name', 'id'))
+                                ->required(),
+                        ])
+                        ->action(function (array $data, Chat $chat): void {
+                            ChatProduct::query()->updateOrCreate([
+                                'chat_id' => $chat->id,
+                            ], [
+                               'product_id' => $data['product_id'],
+                            ]);
+                        }),
+                    Tables\Actions\EditAction::make(),
+                ])
+                    ->label(__('admin/chat.actions'))
+                    ->icon('heroicon-m-ellipsis-vertical')
+                    ->size(ActionSize::Small)
+                    ->color('primary')
+                    ->button()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

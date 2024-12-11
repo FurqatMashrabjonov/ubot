@@ -9,6 +9,7 @@
         "php": "^8.2",
         "bezhansalleh/filament-language-switch": "^3.1",
         "filament/filament": "^3.2",
+        "hasnayeen/themes": "^3.0",
         "laravel/framework": "^11.31",
         "laravel/pulse": "^1.2",
         "laravel/sanctum": "^4.0",
