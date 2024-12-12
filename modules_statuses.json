@@ -1,5 +1,7 @@
 {
     "GeminiAiBot": true,
     "Gemini": true,
-    "MainBot": true
+    "MainBot": true,
+    "Admin": true,
+    "AdminBot": true
 }

@@ -4,6 +4,9 @@
 use App\Telegram\Commands\Start;
 use App\Telegram\Middleware\ChatCreateOrUpdate;
 use App\Telegram\Middleware\SwitchModule;
+use Modules\GeminiAiBot\Actions\AskGeminiAiAction;
+use Modules\GeminiAiBot\Actions\AskGeminiAiExplainPhotoAction;
+use Modules\GeminiAiBot\Telegram\Conversations\GenerateTextConversation;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +19,7 @@ use App\Telegram\Middleware\SwitchModule;
 */
 
 //Global middlewares
-$bot->onCommand('start', function (\SergiX44\Nutgram\Nutgram $bot) {
-    $bot->sendMessage('Hello, I am a Gemini AI Bot. I can help you with your daily tasks. Please type /help to see the list of available commands.');
-})->description('Start command');
+$bot->onCommand('start', \Modules\GeminiAiBot\Telegram\Commands\Start::class);
+
+$bot->onMessage(fn($bot) => AskGeminiAiAction::ask($bot));
+//$bot->onPhoto(fn($bot) => AskGeminiAiExplainPhotoAction::explain($bot));

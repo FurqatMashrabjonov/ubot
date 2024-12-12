@@ -32,6 +32,14 @@ class ProductSeeder extends Seeder
                 'module_name' => 'GeminiAiBot',
                 'status' => ProductStatusEnum::ACTIVE,
             ],
+            [
+                'name' => 'Admin Bot',
+                'description' => 'This is an Admin Bot that can be used to manage the system',
+                'is_default' => false,
+                'category_id' => 1,
+                'module_name' => 'AdminBot',
+                'status' => ProductStatusEnum::ACTIVE,
+            ],
         ];
 
         Product::query()->insert($products);

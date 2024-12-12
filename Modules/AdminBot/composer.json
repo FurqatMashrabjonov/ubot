@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/adminbot",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\AdminBot\\": "app/",
+            "Modules\\AdminBot\\Database\\Factories\\": "database/factories/",
+            "Modules\\AdminBot\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\AdminBot\\Tests\\": "tests/"
+        }
+    }
+}

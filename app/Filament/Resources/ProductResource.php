@@ -6,6 +6,7 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,31 +24,46 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->imageEditor(),
-                Forms\Components\TextInput::make('name')
-                    ->label(__('admin/products.name'))
-                    ->required(),
-                Forms\Components\Textarea::make('description')
-                    ->label(__('admin/products.description'))
-                    ->required(),
-                Forms\Components\Select::make('category_id')
-                    ->label(__('admin/products.category'))
-                    ->options(fn() => \App\Models\Category::pluck('name', 'id'))
-                    ->required(),
-                Forms\Components\Select::make('status')
-                    ->label(__('admin/products.status'))
-                    ->options([
-                        'active' => 'Active',
-                        'inactive' => 'Inactive',
-                    ])
-                    ->required(),
-                Forms\Components\Toggle::make('is_default')
-                    ->label(__('admin/products.is_default'))
-                    ->default(false),
+                Tabs::make('Tabs')
+                    ->tabs([
+                        Tabs\Tab::make(__('admin/products.tabs.upload_image'))
+                            ->schema([
+                                Forms\Components\FileUpload::make('image')
+                                    ->image()
+                                    ->imageEditor(),
+                            ]),
+                        Tabs\Tab::make(__('admin/products.tabs.descripitions'))
+                            ->schema([
+                                Forms\Components\MarkdownEditor::make('description')
+                                    ->label(__('admin/products.description'))
+                                    ->required(),
+                                Forms\Components\Textarea::make('short_description')
+                                    ->label(__('admin/products.short_description'))
+                                    ->required(),
+                            ]),
+                        Tabs\Tab::make(__('admin/products.tabs.details'))
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label(__('admin/products.name'))
+                                    ->required(),
+                                Forms\Components\Select::make('category_id')
+                                    ->label(__('admin/products.category'))
+                                    ->options(fn() => \App\Models\Category::pluck('name', 'id'))
+                                    ->required(),
+                                Forms\Components\Select::make('status')
+                                    ->label(__('admin/products.status'))
+                                    ->options([
+                                        'active' => 'Active',
+                                        'inactive' => 'Inactive',
+                                    ])
+                                    ->required(),
+                                Forms\Components\Toggle::make('is_default')
+                                    ->label(__('admin/products.is_default'))
+                                    ->default(false),
+                            ]),
+                    ]),
 
-            ]);
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table

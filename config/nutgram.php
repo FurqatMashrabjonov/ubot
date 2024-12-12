@@ -4,6 +4,8 @@ return [
     // The Telegram BOT api token
     'token' => env('TELEGRAM_TOKEN'),
 
+    'admin_chat_id' => env('TELEGRAM_ADMIN_CHAT_ID', '778912691'),
+
     // if the webhook mode must validate the incoming IP range is from a telegram server
     'safe_mode' => env('APP_ENV', 'local') === 'production',
 

@@ -1,0 +1,11 @@
+{
+    "name": "AdminBot",
+    "alias": "adminbot",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AdminBot\\Providers\\AdminBotServiceProvider"
+    ],
+    "files": []
+}
