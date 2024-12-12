@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean('is_default')->default(false);
             $table->string('module_name')->nullable();
             $table->foreignId('category_id')->constrained();
-            $table->string('status')->default(\App\Enums\ProductStatusEnum::ACTIVE);
+            $table->string('status')->default(App\Enums\ProductStatusEnum::ACTIVE);
             $table->timestamps();
         });
     }

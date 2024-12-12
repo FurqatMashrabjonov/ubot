@@ -1,6 +1,6 @@
 <?php
-/** @var SergiX44\Nutgram\Nutgram $bot */
 
+/** @var SergiX44\Nutgram\Nutgram $bot */
 
 use Modules\AdminBot\Telegram\Commands\Photo;
 use Modules\AdminBot\Telegram\Commands\Start;

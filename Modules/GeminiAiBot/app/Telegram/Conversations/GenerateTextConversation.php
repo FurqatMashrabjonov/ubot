@@ -2,8 +2,8 @@
 
 namespace Modules\GeminiAiBot\Telegram\Conversations;
 
-use SergiX44\Nutgram\Conversations\Conversation;
 use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Conversations\Conversation;
 
 class GenerateTextConversation extends Conversation
 {

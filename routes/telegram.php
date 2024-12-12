@@ -1,10 +1,9 @@
 <?php
+
 /** @var SergiX44\Nutgram\Nutgram $bot */
 
-use App\Telegram\Commands\Start;
-use App\Telegram\Middleware\ChatCreateOrUpdate;
-use App\Telegram\Middleware\SwitchModule;
 use Nwidart\Modules\Facades\Module;
+use App\Telegram\Middleware\ChatCreateOrUpdate;
 
 /*
 |--------------------------------------------------------------------------

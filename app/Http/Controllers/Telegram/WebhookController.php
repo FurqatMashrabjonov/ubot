@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Telegram;
 
-use App\Http\Controllers\Controller;
 use App\Models\Chat;
 use Illuminate\Http\Request;
+use SergiX44\Nutgram\Nutgram;
 use Illuminate\Support\Facades\Log;
 use Nwidart\Modules\Facades\Module;
-use SergiX44\Nutgram\Nutgram;
+use App\Http\Controllers\Controller;
 
 class WebhookController extends Controller
 {

@@ -2,13 +2,12 @@
 
 namespace App\Console\Services;
 
-use GuzzleHttp\Exception\GuzzleException;
 use SergiX44\Nutgram\Nutgram;
+use GuzzleHttp\Exception\GuzzleException;
 use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 
 class WebhookService
 {
-
     protected function getWebhookUrl(): string
     {
         return config('app.webhook_url') . route('webhook', [], false);
@@ -22,6 +21,7 @@ class WebhookService
     public function set(Nutgram $bot)
     {
         \Log::info($this->getWebhookUrl());
+
         try {
             $bot->setWebhook($this->getWebhookUrl());
         } catch (TelegramException $e) {

@@ -2,23 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\ChatStatusEnum;
-use App\Filament\Resources\ChatResource\Pages;
-use App\Filament\Resources\ChatResource\RelationManagers;
 use App\Models\Chat;
-use App\Models\ChatProduct;
-use App\Models\Product;
-use Filament\Forms;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ActionGroup;
+use App\Models\Product;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Models\ChatProduct;
+use App\Enums\ChatStatusEnum;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Select;
+use Filament\Support\Enums\ActionSize;
+use Filament\Tables\Actions\ActionGroup;
+use App\Filament\Resources\ChatResource\Pages;
 
 class ChatResource extends Resource
 {
@@ -30,9 +26,9 @@ class ChatResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('chat.product')
+                Select::make('chat.product')
                     ->label(__('admin/chat.product'))
-                    ->options(fn() => \App\Models\Product::pluck('name', 'id'))
+                    ->options(fn () => Product::pluck('name', 'id'))
                     ->required(),
             ]);
     }
@@ -50,7 +46,7 @@ class ChatResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-            //make full name
+                //make full name
                 Tables\Columns\TextColumn::make('full_name')
                     ->label(__('admin/chat.full_name'))
                     ->searchable()
@@ -61,7 +57,7 @@ class ChatResource extends Resource
                     ->badge()
                     ->searchable()
                     ->sortable()
-                    ->color(fn(Chat $record) => ChatStatusEnum::getColors()[$record->status] ?? 'default'),
+                    ->color(fn (Chat $record) => ChatStatusEnum::getColors()[$record->status] ?? 'default'),
                 Tables\Columns\TextColumn::make('language_code')
                     ->label(__('admin/chat.language_code'))
                     ->searchable()
@@ -71,10 +67,10 @@ class ChatResource extends Resource
                     ->label(__('admin/chat.product'))
                     ->searchable()
                     ->sortable(),
-//                Tables\Columns\TextColumn::make('phone_number')
-//                    ->label(__('admin/chat.phone_number'))
-//                    ->searchable()
-//                    ->sortable(),
+                //                Tables\Columns\TextColumn::make('phone_number')
+                //                    ->label(__('admin/chat.phone_number'))
+                //                    ->searchable()
+                //                    ->sortable(),
             ])
             ->filters([
                 //
@@ -82,7 +78,7 @@ class ChatResource extends Resource
             ->actions([
                 ActionGroup::make([
                     Action::make('updateChat')
-                        ->fillForm(fn(Chat $chat): array => [
+                        ->fillForm(fn (Chat $chat): array => [
                             'chat_id' => $chat->id,
                         ])
                         ->form([
@@ -95,7 +91,7 @@ class ChatResource extends Resource
                             ChatProduct::query()->updateOrCreate([
                                 'chat_id' => $chat->id,
                             ], [
-                               'product_id' => $data['product_id'],
+                                'product_id' => $data['product_id'],
                             ]);
                         }),
                     Tables\Actions\EditAction::make(),
@@ -104,7 +100,7 @@ class ChatResource extends Resource
                     ->icon('heroicon-m-ellipsis-vertical')
                     ->size(ActionSize::Small)
                     ->color('primary')
-                    ->button()
+                    ->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -123,9 +119,9 @@ class ChatResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListChats::route('/'),
+            'index'  => Pages\ListChats::route('/'),
             'create' => Pages\CreateChat::route('/create'),
-            'edit' => Pages\EditChat::route('/{record}/edit'),
+            'edit'   => Pages\EditChat::route('/{record}/edit'),
         ];
     }
 }

@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Product extends Model
 {
-
     protected $fillable = [
         'name',
         'description',
+        'short_description',
         'image',
         'is_default',
         'module_path',
@@ -32,5 +32,4 @@ class Product extends Model
     {
         return $this->hasOneThrough(Image::class, ProductImage::class, 'product_id', 'id', 'id', 'image_id');
     }
-
 }

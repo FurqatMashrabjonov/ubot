@@ -2,17 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
-use App\Models\Product;
 use Filament\Forms;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Image;
+use App\Models\Product;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Enums\ProductStatusEnum;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Select;
+use App\Filament\Resources\ProductResource\Pages;
 
 class ProductResource extends Resource
 {
@@ -32,6 +32,7 @@ class ProductResource extends Resource
                                     ->image()
                                     ->imageEditor(),
                             ]),
+
                         Tabs\Tab::make(__('admin/products.tabs.descripitions'))
                             ->schema([
                                 Forms\Components\MarkdownEditor::make('description')
@@ -46,16 +47,13 @@ class ProductResource extends Resource
                                 Forms\Components\TextInput::make('name')
                                     ->label(__('admin/products.name'))
                                     ->required(),
-                                Forms\Components\Select::make('category_id')
+                                Select::make('category_id')
                                     ->label(__('admin/products.category'))
-                                    ->options(fn() => \App\Models\Category::pluck('name', 'id'))
+                                    ->options(fn () => \App\Models\Category::pluck('name', 'id'))
                                     ->required(),
-                                Forms\Components\Select::make('status')
+                                Select::make('status')
                                     ->label(__('admin/products.status'))
-                                    ->options([
-                                        'active' => 'Active',
-                                        'inactive' => 'Inactive',
-                                    ])
+                                    ->options(ProductStatusEnum::options())
                                     ->required(),
                                 Forms\Components\Toggle::make('is_default')
                                     ->label(__('admin/products.is_default'))
@@ -71,23 +69,23 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                ->label(__('admin/products.image'))
-                ->extraImgAttributes(['loading' => 'lazy'])
-                ->size(100),
+                    ->label(__('admin/products.image'))
+                    ->extraImgAttributes(['loading' => 'lazy'])
+                    ->size(100),
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('admin/products.name'))
                     ->searchable()
                     ->sortable(),
-//                Tables\Columns\TextColumn::make('description')
-//                    ->label(__('admin/products.description'))
-//                    ->wrap()
-//                    ->lineClamp(2)
-//                    ->searchable()
-//                    ->sortable(),
-            Tables\Columns\TextColumn::make('module_name')
-            ->label(__('admin/products.module_name'))
-            ->searchable()
-            ->sortable(),
+                //                Tables\Columns\TextColumn::make('description')
+                //                    ->label(__('admin/products.description'))
+                //                    ->wrap()
+                //                    ->lineClamp(2)
+                //                    ->searchable()
+                //                    ->sortable(),
+                Tables\Columns\TextColumn::make('module_name')
+                    ->label(__('admin/products.module_name'))
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label(__('admin/products.category'))
                     ->searchable()
@@ -95,8 +93,8 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('status')
                     ->label(__('admin/products.status'))
                     ->badge()
-                    ->color(fn($record) => match ($record->status) {
-                        'active' => 'success',
+                    ->color(fn ($record) => match ($record->status) {
+                        'active'   => 'success',
                         'inactive' => 'danger',
                     })
                     ->searchable()
@@ -111,6 +109,7 @@ class ProductResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
+
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -128,9 +127,27 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
+            'index'  => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'edit'   => Pages\EditProduct::route('/{record}/edit'),
         ];
+    }
+
+    public static function getHtmlOptions(): array
+    {
+        $images = Image::query()->get();
+
+        $options = [];
+
+        foreach ($images as $image) {
+            $options[$image->id] = static::getCleanOptionString($image);
+        }
+
+        return $options;
+    }
+
+    public static function getCleanOptionString($image): string
+    {
+        return view('filament.components.select-images-result')->with('image', $image)->render();
     }
 }

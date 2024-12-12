@@ -2,8 +2,8 @@
 
 namespace Modules\AdminBot\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AdminBotController extends Controller
 {

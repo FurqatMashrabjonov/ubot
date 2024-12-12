@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Enums\ProductStatusEnum;
 use App\Models\Product;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Nwidart\Modules\Facades\Module;
+use App\Enums\ProductStatusEnum;
 
 class ProductSeeder extends Seeder
 {
@@ -17,28 +15,28 @@ class ProductSeeder extends Seeder
     {
         $products = [
             [
-                'name' => 'Main Bot',
+                'name'        => 'Main Bot',
                 'description' => 'Main Bot Description',
-                'is_default' => true,
+                'is_default'  => true,
                 'category_id' => 1,
                 'module_name' => 'MainBot',
-                'status' => ProductStatusEnum::ACTIVE,
+                'status'      => ProductStatusEnum::ACTIVE,
             ],
             [
-                'name' => 'Gemini Ai Bot',
+                'name'        => 'Gemini Ai Bot',
                 'description' => 'This is a Gemini Ai Bot that can be used to generate Ai content',
-                'is_default' => false,
+                'is_default'  => false,
                 'category_id' => 2,
                 'module_name' => 'GeminiAiBot',
-                'status' => ProductStatusEnum::ACTIVE,
+                'status'      => ProductStatusEnum::ACTIVE,
             ],
             [
-                'name' => 'Admin Bot',
+                'name'        => 'Admin Bot',
                 'description' => 'This is an Admin Bot that can be used to manage the system',
-                'is_default' => false,
+                'is_default'  => false,
                 'category_id' => 1,
                 'module_name' => 'AdminBot',
-                'status' => ProductStatusEnum::ACTIVE,
+                'status'      => ProductStatusEnum::ACTIVE,
             ],
         ];
 

@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ChatProduct extends Model
 {
-
     protected $fillable = [
         'chat_id',
         'product_id',
     ];
-
 
     public function chat(): BelongsTo
     {

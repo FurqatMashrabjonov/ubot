@@ -2,13 +2,12 @@
 
 namespace Modules\GeminiAiBot\Actions;
 
-use Gemini\Laravel\Facades\Gemini;
 use SergiX44\Nutgram\Nutgram;
+use Gemini\Laravel\Facades\Gemini;
 use SergiX44\Nutgram\Telegram\Properties\ParseMode;
 
 class AskGeminiAiAction
 {
-
     public static function ask(Nutgram $bot)
     {
         $message = $bot->sendMessage('💭');
@@ -27,5 +26,4 @@ class AskGeminiAiAction
             );
         }
     }
-
 }

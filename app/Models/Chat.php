@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Chat extends Model
 {
-
     protected $fillable = [
         'chat_id',
         'username',
@@ -26,8 +25,8 @@ class Chat extends Model
     public function product(): HasOneThrough
     {
         return $this->hasOneThrough(
-          Product::class,
-          ChatProduct::class,
+            Product::class,
+            ChatProduct::class,
             'chat_id',
             'id',
             'id',

@@ -2,16 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Category;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\Resource;
+use App\Filament\Resources\CategoryResource\Pages;
 
 class CategoryResource extends Resource
 {
@@ -24,11 +21,11 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                ->label(__('admin/categories.name'))
-                ->required(),
+                    ->label(__('admin/categories.name'))
+                    ->required(),
                 Forms\Components\TextInput::make('slug')
-                ->label(__('admin/categories.slug'))
-                ->required()
+                    ->label(__('admin/categories.slug'))
+                    ->required(),
             ]);
     }
 
@@ -37,13 +34,13 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                ->label(__('admin/categories.name'))
-                ->searchable()
-                ->sortable(),
+                    ->label(__('admin/categories.name'))
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
-                ->label(__('admin/categories.slug'))
-                ->searchable()
-                ->sortable(),
+                    ->label(__('admin/categories.slug'))
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -68,9 +65,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
+            'index'  => Pages\ListCategories::route('/'),
             'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'edit'   => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }

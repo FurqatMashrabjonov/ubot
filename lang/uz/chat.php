@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'chat' => 'Chat',
-    'active' => 'Faol',
+    'chat'     => 'Chat',
+    'active'   => 'Faol',
     'inactive' => 'Faol emas',
-    'blocked' => 'Bloklangan',
-    'deleted' => 'O\'chirilgan',
+    'blocked'  => 'Bloklangan',
+    'deleted'  => 'O\'chirilgan',
 ];

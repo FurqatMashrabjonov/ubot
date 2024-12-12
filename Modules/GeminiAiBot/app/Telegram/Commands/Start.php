@@ -2,8 +2,8 @@
 
 namespace Modules\GeminiAiBot\Telegram\Commands;
 
-use Modules\GeminiAiBot\Helpers\TextHelper;
 use SergiX44\Nutgram\Nutgram;
+use Modules\GeminiAiBot\Helpers\TextHelper;
 use SergiX44\Nutgram\Handlers\Type\Command;
 use SergiX44\Nutgram\Telegram\Properties\ParseMode;
 

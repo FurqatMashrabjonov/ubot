@@ -2,10 +2,12 @@ import {Head, useForm} from '@inertiajs/react';
 import React, {useEffect, useState} from "react";
 
 import WebAppLayout from "@/Layouts/WebAppLayout.jsx";
-import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/Components/ui/card.jsx";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/Components/ui/card.jsx";
 import {Button} from "@/Components/ui/button.jsx";
 import {Badge} from "@/Components/ui/badge.jsx";
 import {Skeleton} from "@/Components/ui/skeleton.jsx";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 export default function Dashboard() {
 
@@ -14,25 +16,20 @@ export default function Dashboard() {
     const [products, setProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [loadingEachPicture, setLoadingEachPicture] = useState([]);
-    useEffect(() => {
-// setInitDataUnsafe(window.Telegram.WebApp.initDataUnsafe);
-    }, [setInitDataUnsafe]);
 
-    const getProducts = () => {
-        axios.get(route('products.filter'))
+    const getProducts = (category_id) => {
+        if (selectedCategory === category_id) {
+            setSelectedCategory(null);
+        }else {
+            setSelectedCategory(category_id);
+        }
+        setLoading(true);
+        axios.get(route('products.filter', {category_id: category_id}))
             .then(response => {
                 setProducts(response.data.products);
                 setCategories(response.data.categories);
-                setSelectedCategory(response.data.selectedCategory);
                 setLoading(false);
 
-                let loadingEachPicture = [];
-                products.map((product, index) => {
-                    loadingEachPicture[index] = true;
-                });
-
-                setLoadingEachPicture(loadingEachPicture);
             })
             .catch(error => {
                 console.error('There was an error fetching the products!', error);
@@ -40,6 +37,8 @@ export default function Dashboard() {
     }
 
     useEffect(() => {
+// setInitDataUnsafe(window.Telegram.WebApp.initDataUnsafe);
+
         setLoading(true);
         getProducts()
     }, []);
@@ -49,56 +48,60 @@ export default function Dashboard() {
             <Head title="Products"/>
 
             <div className="mb-2">
-                {categories.map((category, index) => (
-                    <Badge key={index} className="text-md cursor-pointer m-1"
-                           variant={selectedCategory === category.id ? 'default' : 'outline'}
-                           onClick={() => filterByCategory(category.id, event)}
-                    >{category.name}</Badge>
-                ))}
+                {loading ? (
+                    Array.from({length: 3}).map((_, index) => (
+                           <Skeleton key={index} className="h-6 w-24 m-1"/>
+                    ))
+                ) : (
+                    categories.map((category, index) => (
+                        <Badge key={index} className="text-md cursor-pointer m-1"
+                               variant={selectedCategory === category.id ? 'default' : 'outline'}
+                               onClick={() => getProducts(category.id)}
+                        >{category.name}</Badge>
+                    ))
+                )}
             </div>
-
             <div className="">
-                {products.map((product, index) => (
-                    <Card className="w-full mb-2" key={index}>
-                        <CardHeader>
-                            <CardTitle>{product.name}</CardTitle>
-                        </CardHeader>
-                        <CardContent className="grid gap-4">
-                            <div className=" flex items-center space-x-4 rounded-md border ">
-                                {loading ? (
-                                    <Skeleton className="h-[200px] w-full rounded-xl"/>
-                                ) : (
-                                    loadingEachPicture[product.id] ? (
-                                        <Skeleton className="h-[200px] w-full rounded-xl"/>
-                                    ) : (
-                                        <img loading="lazy" src={`/storage/${product.image}`} alt=""
-                                             onLoad={() => setLoadingEachPicture(prev => {
-                                                 const newLoadingEachPicture = [...prev];
-                                                 newLoadingEachPicture[product.id] = false;
-                                                 return newLoadingEachPicture;
-                                             })} className="border rounded-md"/>
-                                    )
-                                )}
-
-
+                {loading ? (
+                    Array.from({length: 3}).map((_, index) => (
+                        <Card className="w-full mb-2" key={index}>
+                            <div className="flex items-center rounded-sm border ">
+                                <Skeleton className="h-[200px] w-full rounded-top"/>
                             </div>
-                            <div className="flex flex-col space-y-3">
+                            <div className="flex flex-col space-y-3 mt-4 p-4">
                                 <div className="space-y-2">
-                                    {loading ? (
-                                        <Skeleton className="h-4 w-[200px]"/>
-                                    ) : (
-                                        <p>{product.short_description}</p>
-                                    )}
+                                    <Skeleton className="h-4 w-[100px]"/>
+                                    <Skeleton className="h-4 w-[200px]"/>
                                 </div>
                             </div>
-                        </CardContent>
-                        <CardFooter>
-                            <Button className="w-full">
-                                Use it
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                ))}
+                            <CardFooter>
+                                <Skeleton className="h-9 w-full"/>
+                            </CardFooter>
+                        </Card>
+                    ))
+                ) : (
+                    products.map((product, index) => (
+                        <Card className="w-full mb-2" key={index}>
+                            <div className="flex items-center rounded-sm border ">
+                                <LazyLoadImage src={`/storage/${product.image}`}
+                                               className="rounded-t-sm"
+                                               effect="blur"
+                                />
+                            </div>
+                            <div className="flex flex-col space-y-3 mt-4 p-4">
+                                <div className="space-y-2">
+                                    <CardTitle>{product.name}</CardTitle>
+                                    <CardDescription>{product.short_description}</CardDescription>
+                                </div>
+                            </div>
+                            <CardFooter>
+                                <Button className="w-full">
+                                    Batafsil
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    ))
+                )}
             </div>
         </WebAppLayout>
     );

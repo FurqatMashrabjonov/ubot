@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\WebApp;
 
-use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Product;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProductsController extends Controller
 {
@@ -28,8 +28,8 @@ class ProductsController extends Controller
         $selectedCategory = $request->get('category_id', null);
 
         return response()->json([
-            'products' => $products,
-            'categories' => $categories,
+            'products'         => $products,
+            'categories'       => $categories,
             'selectedCategory' => $selectedCategory,
         ]);
     }
